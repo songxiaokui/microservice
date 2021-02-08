@@ -16,7 +16,7 @@ import (
 )
 
 // 定义一个mysql对象，并且是一个连接池
-var db *gorm.DB
+var MysqlDB *gorm.DB
 
 type Mysql struct {
 	Host     string `yaml:"M_Host"`
@@ -39,10 +39,17 @@ func InitMysql(dbs string) (err error) {
 	mysqlUrl := fmt.Sprintf("%s:%s@(%s:%s)/%s?charset=utf8&parseTime=True&loc=Local",
 		m.UserName, m.Password, m.Host, m.Port, dbs)
 	// 使用gorm创建连接对象
-	db, err = gorm.Open("mysql", mysqlUrl)
+	MysqlDB, err = gorm.Open("mysql", mysqlUrl)
 	if err != nil {
 		return errors.Wrap(err, "mysql connect error")
 	}
-	db.SingularTable(true)
+	MysqlDB.SingularTable(true)
+	return
+}
+
+// 测试使用
+func ManualSql() {
+	MysqlDB, _ = gorm.Open("mysql", "root:mysql@(127.0.0.1:3306)/user?charset=utf8&parseTime=True&loc=Local")
+	MysqlDB.SingularTable(true)
 	return
 }

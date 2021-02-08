@@ -1,6 +1,7 @@
 package biz
 
 import (
+	. "microservice/configs"
 	"time"
 )
 
@@ -11,14 +12,16 @@ import (
 @File    : user.go
 @Software: GoLand
 */
+// 验证实现类是否实现该接口
+var _ UserDaoInter = (*UserDaoImpl)(nil)
 
 // model层
 type UserEntity struct {
-	ID         int64
-	UserName   string
-	Password   string
-	Email      string
-	CreateTime time.Time
+	ID        int64
+	Username  string
+	Password  string
+	Email     string
+	CreatedAt time.Time
 }
 
 // model对应数据库中的表名
@@ -39,4 +42,11 @@ type UserDaoImpl struct {
 // 实现UserDaoInter接口
 func (u *UserDaoImpl) SelectByEmail(email string) (*UserEntity, error) {
 	user := &UserEntity{}
+	err := MysqlDB.Where("email = ?", email).First(user).Error
+	return user, err
+}
+
+func (u *UserDaoImpl) Save(user *UserEntity) error {
+	err := MysqlDB.Create(user).Error
+	return err
 }
