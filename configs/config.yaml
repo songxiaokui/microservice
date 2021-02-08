@@ -1,0 +1,15 @@
+# 数据库的相关配置
+
+# mysql
+M_Host: 127.0.0.1
+M_Port: 3306
+M_User: root
+M_Password: mysql
+
+# Redis
+R_Host: 127.0.0.1
+R_Port: 6379
+R_Password: austsxk
+R_DB: 7
+
+
