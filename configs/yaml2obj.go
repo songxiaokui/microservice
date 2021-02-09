@@ -22,7 +22,8 @@ func GetConfigPath() string {
 	if err != nil {
 		return ""
 	}
-	return filepath.Join(filepath.Dir(pwd), "configs", "config.yaml")
+	// 在cmd目录下编译，要获取该配置路径，就要从cmd目录开始计算文件所在路径
+	return filepath.Join(filepath.Dir(filepath.Dir(pwd)), "configs", "config.yaml")
 }
 
 func GetYamlFile() ([]byte, error) {
